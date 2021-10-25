@@ -30,7 +30,7 @@ class VectorEnv(gym.Env):
     """
 
     def __init__(self, num_envs, observation_space, action_space):
-        super(VectorEnv, self).__init__()
+        super().__init__()
         self.num_envs = num_envs
         self.is_vector_env = True
         self.observation_space = batch_space(observation_space, n=num_envs)
@@ -140,11 +140,9 @@ class VectorEnv(gym.Env):
 
     def __repr__(self):
         if self.spec is None:
-            return "{}({})".format(self.__class__.__name__, self.num_envs)
+            return f"{self.__class__.__name__}({self.num_envs})"
         else:
-            return "{}({}, {})".format(
-                self.__class__.__name__, self.spec.id, self.num_envs
-            )
+            return f"{self.__class__.__name__}({self.spec.id}, {self.num_envs})"
 
 
 class VectorEnvWrapper(VectorEnv):
@@ -190,9 +188,7 @@ class VectorEnvWrapper(VectorEnv):
     # implicitly forward all other methods and attributes to self.env
     def __getattr__(self, name):
         if name.startswith("_"):
-            raise AttributeError(
-                "attempted to get missing private attribute '{}'".format(name)
-            )
+            raise AttributeError(f"attempted to get missing private attribute '{name}'")
         return getattr(self.env, name)
 
     @property
@@ -200,4 +196,4 @@ class VectorEnvWrapper(VectorEnv):
         return self.env.unwrapped
 
     def __repr__(self):
-        return "<{}, {}>".format(self.__class__.__name__, self.env)
+        return f"<{self.__class__.__name__}, {self.env}>"

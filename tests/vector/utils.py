@@ -90,7 +90,7 @@ class CustomSpaceEnv(gym.Env):
         return "reset"
 
     def step(self, action):
-        observation = "step({0:s})".format(action)
+        observation = "step({:s})".format(action)
         reward, done = 0.0, False
         return observation, reward, done, {}
 
